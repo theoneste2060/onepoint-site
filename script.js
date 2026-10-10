@@ -68,17 +68,43 @@ form.addEventListener('submit', e => {
   msg.textContent = 'WhatsApp should open with your request ready to send. If it does not, call us on +250 788 980 666.';
 });
 
-// Gallery lightbox
+// Gallery lightbox with previous / next
 const lightbox = document.getElementById('lightbox');
 const lbImg = document.getElementById('lb-img');
 const lbCap = document.getElementById('lb-cap');
-document.querySelectorAll('.shot').forEach(btn => {
-  btn.addEventListener('click', () => {
-    lbImg.src = btn.dataset.full;
-    lbImg.alt = btn.querySelector('img').alt;
-    lbCap.textContent = btn.dataset.caption;
-    lightbox.showModal();
-  });
+const lbCount = document.getElementById('lb-count');
+const shots = [...document.querySelectorAll('.shot')];
+let current = 0;
+
+function showShot(i) {
+  current = (i + shots.length) % shots.length;
+  const btn = shots[current];
+  lbImg.src = btn.dataset.full;
+  lbImg.alt = btn.querySelector('img').alt;
+  lbCap.textContent = btn.dataset.caption;
+  lbCount.textContent = (current + 1) + ' / ' + shots.length;
+  // preload neighbours so switching feels instant
+  [current - 1, current + 1].forEach(n => { new Image().src = shots[(n + shots.length) % shots.length].dataset.full; });
+}
+
+shots.forEach((btn, i) => {
+  btn.addEventListener('click', () => { showShot(i); lightbox.showModal(); });
 });
 lightbox.querySelector('.lb-close').addEventListener('click', () => lightbox.close());
+lightbox.querySelector('.lb-prev').addEventListener('click', () => showShot(current - 1));
+lightbox.querySelector('.lb-next').addEventListener('click', () => showShot(current + 1));
 lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.close(); });
+lightbox.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') { e.preventDefault(); showShot(current - 1); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); showShot(current + 1); }
+});
+
+// Swipe on touch screens
+let touchX = null;
+lightbox.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, {passive: true});
+lightbox.addEventListener('touchend', e => {
+  if (touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  touchX = null;
+  if (Math.abs(dx) > 50) showShot(current + (dx < 0 ? 1 : -1));
+}, {passive: true});
