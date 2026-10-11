@@ -116,7 +116,7 @@ lightbox.addEventListener('touchend', e => {
   const selector = [
     '.section h2', '.section .section-lead',
     '.services li', '.audience li', '.steps li', '.gallery li',
-    '.faq details', '.reassure', '.form', '.contact > div', '.gallery-note'
+    '.faq details', '.reassure', '.form', '.contact > div', '.gallery-note', '.qr-card'
   ].join(',');
 
   const items = [...document.querySelectorAll(selector)];
