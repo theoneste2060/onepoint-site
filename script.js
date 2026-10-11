@@ -138,7 +138,7 @@ lightbox.addEventListener('touchend', e => {
     // small stagger within a group, capped so long lists don't drag
     const siblings = [...el.parentElement.children].filter(c => c.matches(selector));
     const idx = Math.min(siblings.indexOf(el), 4);
-    el.style.setProperty('--rd', (idx * 0.1).toFixed(2) + 's');
+    el.style.setProperty('--rd', (idx * 0.14).toFixed(2) + 's');
     el.classList.add('reveal');
     io.observe(el);
   });
