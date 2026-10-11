@@ -109,10 +109,9 @@ lightbox.addEventListener('touchend', e => {
   if (Math.abs(dx) > 50) showShot(current + (dx < 0 ? 1 : -1));
 }, {passive: true});
 
-// Subtle scroll reveal (once per element, skipped for reduced motion)
+// Scroll reveal (once per element; fade only when reduced motion is on)
 (function () {
   if (!('IntersectionObserver' in window)) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const selector = [
     '.section h2', '.section .section-lead',
@@ -139,7 +138,7 @@ lightbox.addEventListener('touchend', e => {
     // small stagger within a group, capped so long lists don't drag
     const siblings = [...el.parentElement.children].filter(c => c.matches(selector));
     const idx = Math.min(siblings.indexOf(el), 4);
-    el.style.setProperty('--rd', (idx * 0.07).toFixed(2) + 's');
+    el.style.setProperty('--rd', (idx * 0.1).toFixed(2) + 's');
     el.classList.add('reveal');
     io.observe(el);
   });
