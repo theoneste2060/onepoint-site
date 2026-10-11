@@ -188,8 +188,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--blue);outline:3px sol
 .lightbox p{margin:.8rem 0 0;text-align:center;color:#fff;font-family:Poppins,sans-serif;font-weight:500}
 .lb-close{position:absolute;top:-14px;right:-6px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:var(--burgundy);font-size:1.7rem;line-height:1;cursor:pointer;z-index:2}
 @media (max-width:560px){
-  .gallery{grid-template-columns:1fr 1fr;gap:.8rem}
-  .shot span{padding:.6rem .7rem;font-size:.88rem}
+  .gallery{grid-template-columns:1fr;gap:1rem}
+  .shot span{font-size:.95rem}
+  .shot span{padding:.7rem .9rem}
   .lb-close{top:-10px;right:0}
 }
 @media (prefers-reduced-motion:reduce){
