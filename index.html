@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.min.css?v=11">
+<link rel="stylesheet" href="styles.min.css?v=14">
 </head>
 <body>
 
@@ -217,8 +217,8 @@
 <!-- EXAMPLES -->
 <section class="section tint" id="examples">
   <div class="wrap">
-    <h2>Branding and printing examples</h2>
-    <p class="section-lead">Banners, signage, folders, notebooks, pins, mugs and other branded items for your event. Tell us what you need and we'll arrange it and quote it.</p>
+    <h2>Branding, printing, catering and transport examples</h2>
+    <p class="section-lead">Banners, signage, folders, notebooks, pins, mugs and other branded items, plus catering and vehicles for your transfers and travel. Tell us what you need and we'll arrange it and quote it.</p>
     <ul class="gallery">
       <li>
         <button type="button" class="shot" data-full="assets/img/event-signage-backdrop.jpg" data-caption="Event signage and backdrops">
@@ -275,6 +275,30 @@
         </button>
       </li>
     </ul>
+    <h3 class="gallery-sub">Transport</h3>
+    <ul class="gallery gallery-transport">
+      <li>
+        <button type="button" class="shot" data-full="assets/img/transport-suv-front.jpg" data-caption="Transport: SUV for transfers and travel">
+          <img src="assets/img/transport-suv-front.jpg" alt="Black SUV parked on a paved yard, seen from the front left" loading="lazy" width="723" height="771" style="object-position:50% 55%">
+          <span>SUV for transfers and travel</span>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="shot" data-full="assets/img/transport-suv-rear.jpg" data-caption="Transport: SUV for transfers and travel">
+          <img src="assets/img/transport-suv-rear.jpg" alt="Black SUV parked on a paved yard, seen from the rear left" loading="lazy" width="728" height="685" style="object-position:40% 55%">
+          <span>Comfortable, well-kept vehicles</span>
+        </button>
+      </li>
+    </ul>
+    <h3 class="gallery-sub">Catering</h3>
+    <ul class="gallery gallery-catering">
+      <li>
+        <button type="button" class="shot" data-full="assets/img/catering-brochettes-plantain.jpg" data-caption="Catering: grilled brochettes with fried plantain">
+          <img src="assets/img/catering-brochettes-plantain.jpg" alt="Plate of grilled brochettes on skewers with fried plantain and lime halves" loading="lazy" width="817" height="620" style="object-position:50% 50%">
+          <span>Brochettes and fried plantain</span>
+        </button>
+      </li>
+    </ul>
     <p class="small gallery-note">Examples shown for illustration.</p>
   </div>
 </section>
@@ -323,7 +347,8 @@
       </ul>
     </div>
 
-    <form id="quote-form" class="form" novalidate>
+    <form id="quote-form" class="form" action="https://formspree.io/f/mjygoppd" method="POST" novalidate>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0">
       <div class="row">
         <div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
         <div class="field"><label for="org">Organization</label><input id="org" name="org" type="text" autocomplete="organization" required></div>
@@ -422,6 +447,6 @@
   <p class="chat-foot">Automated answers. For anything else, message the team on WhatsApp.</p>
 </section>
 
-<script src="script.min.js?v=11"></script>
+<script src="script.min.js?v=12"></script>
 </body>
 </html>

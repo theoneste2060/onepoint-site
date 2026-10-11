@@ -22,18 +22,19 @@ desktopQuery.addEventListener('change', e => { if (e.matches) setMenu(false); })
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Event request form: opens WhatsApp to OnePoint's number with the request filled in.
-// Swap for a form service or email endpoint if the company sets one up.
 const WHATSAPP_NUMBER = '250788980666';
+
+// Event request form: sent to Formspree, which emails the request to OnePoint.
+const FORM_ENDPOINT = 'https://formspree.io/f/mjygoppd';
 const form = document.getElementById('quote-form');
 const msg = document.getElementById('form-msg');
+const sendBtn = form.querySelector('button[type="submit"]');
 
-form.addEventListener('submit', e => {
+form.addEventListener('submit', async e => {
   e.preventDefault();
   const f = new FormData(form);
   const val = k => String(f.get(k) || '').trim();
-  const required = ['name', 'org', 'email', 'dates'];
-  const missing = required.some(k => !val(k));
+  const missing = ['name', 'org', 'email', 'dates'].some(k => !val(k));
   const emailOk = /^\S+@\S+\.\S+$/.test(val('email'));
 
   if (missing) {
@@ -47,25 +48,35 @@ form.addEventListener('submit', e => {
     return;
   }
 
-  const services = f.getAll('services');
-  const body = [
-    'Name: ' + val('name'),
-    'Organization: ' + val('org'),
-    'Email: ' + val('email'),
-    'Phone: ' + (val('phone') || '-'),
-    'Event dates: ' + val('dates'),
-    'Guests: ' + (val('guests') || '-'),
-    'Services: ' + (services.length ? services.join(', ') : '-'),
-    '',
-    'Details:',
-    val('details') || '-'
-  ].join('\n');
+  // one readable field instead of repeated checkbox keys
+  f.delete('services');
+  f.set('services', form.querySelectorAll('input[name="services"]:checked').length
+    ? Array.from(form.querySelectorAll('input[name="services"]:checked')).map(c => c.value).join(', ')
+    : '-');
+  f.set('_subject', 'Event request from ' + val('org') + ' (website)');
+  f.set('_replyto', val('email'));
 
-  const text = 'Event request from ' + val('org') + '\n\n' + body;
-  window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
-
-  msg.className = 'form-msg ok';
-  msg.textContent = 'WhatsApp should open with your request ready to send. If it does not, call us on +250 788 980 666.';
+  sendBtn.disabled = true;
+  sendBtn.textContent = 'Sending...';
+  msg.className = 'form-msg';
+  msg.textContent = '';
+  try {
+    const res = await fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      body: f,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) throw new Error('bad status ' + res.status);
+    form.reset();
+    msg.className = 'form-msg ok';
+    msg.textContent = 'Thank you. Your request has been sent and we will get back to you soon.';
+  } catch (err) {
+    msg.className = 'form-msg bad';
+    msg.textContent = 'Sorry, we could not send your request. Please try again, or call us on +250 788 980 666.';
+  } finally {
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'Send request';
+  }
 });
 
 // Gallery lightbox with previous / next
