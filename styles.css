@@ -56,14 +56,6 @@ a{color:var(--blue-deep)}
 .actions{display:flex;flex-wrap:wrap;gap:.8rem}
 .hub{margin:0}
 .hub svg{width:100%;height:auto;display:block}
-.spokes line{stroke:var(--blue);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:240;stroke-dashoffset:240;animation:draw 1.4s ease-out .3s forwards}
-.spokes line:nth-child(even){animation-delay:.55s}
-.dots circle{fill:var(--white);stroke:var(--blue);stroke-width:3}
-.labels text{font-family:Poppins,sans-serif;font-weight:500;font-size:15px;fill:var(--ink)}
-.core-ring{fill:none;stroke:var(--burgundy);stroke-width:2;opacity:.35}
-.core{fill:var(--burgundy)}
-.core-text{font-family:Poppins,sans-serif;font-weight:700;font-size:17px;fill:#fff}
-@keyframes draw{to{stroke-dashoffset:0}}
 .tagline{margin-top:clamp(28px,5vw,52px);padding:1.1rem 0;border-top:1px solid var(--line);font-family:Poppins,sans-serif;font-weight:500;color:var(--burgundy);font-size:1.02rem}
 
 /* sections */
@@ -144,7 +136,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--blue);outline:3px sol
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .spokes line{animation:none;stroke-dashoffset:0}
 }
 
 /* faq */
@@ -167,8 +158,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--blue);outline:3px sol
   .faq summary{padding:.2rem 0}
 }
 @media (max-width:560px){
-  .labels text{font-size:18px}
-  .core-text{font-size:19px}
   .actions .btn{flex:1 1 100%;text-align:center}
   .lead{font-size:1.08rem}
   .section{padding:clamp(44px,12vw,64px) 0}
@@ -232,4 +221,39 @@ input:focus,select:focus,textarea:focus{border-color:var(--blue);outline:3px sol
 @media (max-width:900px){
   .services li{grid-template-columns:1fr}
   .svc-head{margin-bottom:.3rem}
+}
+
+/* hero diagram: continuous motion */
+.hub svg{width:100%;height:auto;display:block;overflow:visible}
+.node text{font-family:Poppins,sans-serif;font-weight:500;font-size:17px;fill:var(--ink)}
+.node-icon{fill:none;stroke:var(--burgundy);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.node-ring{transition:fill .2s ease}
+.node:hover .node-ring{fill:var(--tint)}
+.core-text{font-family:Poppins,sans-serif;font-weight:700;font-size:21px;fill:#fff}
+.spoke-base path{fill:none;stroke-width:2;stroke-opacity:.22}
+.flow{fill:none;stroke-width:4;stroke-linecap:round;stroke-dasharray:.1 17;animation:flow 1.9s linear infinite}
+.ripple{fill:none;stroke:var(--burgundy);stroke-width:2;transform-origin:320px 270px;animation:ripple 4.8s ease-out infinite;opacity:0}
+.ripple.r2{animation-delay:1.6s}.ripple.r3{animation-delay:3.2s}
+.orbit{fill:none;stroke:var(--blue);stroke-opacity:.4;stroke-width:1.6;stroke-dasharray:2 9;stroke-linecap:round;transform-origin:320px 270px;animation:spin 90s linear infinite}
+.sat{transform-origin:320px 270px}
+.sat1{animation:spin 13s linear infinite}
+.sat2{animation:spin 19s linear infinite reverse}
+.core-group{transform-origin:320px 270px;animation:breathe 3.8s ease-in-out infinite}
+.pop{animation:pop .75s cubic-bezier(.2,.9,.3,1.25) backwards;animation-delay:var(--d)}
+.bob{animation:bob 4.6s ease-in-out infinite alternate;animation-delay:var(--b)}
+@keyframes flow{to{stroke-dashoffset:-17.1}}
+@keyframes ripple{0%{transform:scale(1);opacity:.5}100%{transform:scale(3.15);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes pop{from{transform:scale(.4);opacity:0}}
+@keyframes bob{from{transform:translateY(-4px)}to{transform:translateY(4px)}}
+@media (max-width:560px){
+  .node text{font-size:21px}
+  .core-text{font-size:24px}
+  .flow{stroke-width:5}
+}
+@media (prefers-reduced-motion:reduce){
+  .flow,.ripple,.orbit,.sat,.core-group,.pop,.bob{animation:none}
+  .ripple{opacity:0}
+  .flow{stroke-dasharray:.1 17}
 }
