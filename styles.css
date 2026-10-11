@@ -257,3 +257,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--blue);outline:3px sol
   .ripple{opacity:0}
   .flow{stroke-dasharray:.1 17}
 }
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;transition-delay:var(--rd,0s)}
+.reveal.in{opacity:1;transform:none}

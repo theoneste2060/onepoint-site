@@ -108,3 +108,39 @@ lightbox.addEventListener('touchend', e => {
   touchX = null;
   if (Math.abs(dx) > 50) showShot(current + (dx < 0 ? 1 : -1));
 }, {passive: true});
+
+// Subtle scroll reveal (once per element, skipped for reduced motion)
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const selector = [
+    '.section h2', '.section .section-lead',
+    '.services li', '.audience li', '.steps li', '.gallery li',
+    '.faq details', '.reassure', '.form', '.contact > div', '.gallery-note'
+  ].join(',');
+
+  const items = [...document.querySelectorAll(selector)];
+  const vh = window.innerHeight;
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      // reveal when visible, or when already scrolled past (e.g. jumped to a link)
+      if (entry.isIntersecting || entry.boundingClientRect.top < 0) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  items.forEach(el => {
+    // anything already on screen at load stays as-is, so nothing flashes
+    if (el.getBoundingClientRect().top < vh * 0.92) return;
+    // small stagger within a group, capped so long lists don't drag
+    const siblings = [...el.parentElement.children].filter(c => c.matches(selector));
+    const idx = Math.min(siblings.indexOf(el), 4);
+    el.style.setProperty('--rd', (idx * 0.07).toFixed(2) + 's');
+    el.classList.add('reveal');
+    io.observe(el);
+  });
+})();
